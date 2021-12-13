@@ -1,0 +1,8 @@
+# Pycache
+**/__pycache__
+
+# Secrets
+.env
+
+# Database
+db
