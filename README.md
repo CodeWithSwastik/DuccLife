@@ -3,3 +3,7 @@
 # DuccLife
 
 A game where you train your ducks and upgrade your rockets inorder to race against others and beat bosses all in a discord bot. 
+
+![](https://media.discordapp.net/attachments/682157382062964781/919446877118824470/ducc.gif)
+
+![](https://media.discordapp.net/attachments/682157382062964781/919448582317281290/ducc.gif)
