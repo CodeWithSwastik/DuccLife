@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from dataclasses import dataclass
 
+
 class Database:
     """
     Class for all interaction with the database.
@@ -41,9 +42,6 @@ class Database:
             )
             await conn.commit()
 
-
-
-
     async def fetch_user(self, user: discord.Member):
         """
         Get user data from database.
@@ -55,7 +53,7 @@ class Database:
             user_data = User(*user_data)
         else:
             user_data, _ = await self.create_new_user(user)
-            
+
         return user_data
 
     async def fetch_rocket(self, user: discord.Member):
@@ -88,17 +86,19 @@ class Database:
             return await conn.commit()
 
     async def create_user(self, user, rocket):
-        await self.execute("""
+        await self.execute(
+            """
                 INSERT INTO user (id, elo, xp, money)
                 VALUES (?, ?, ?, ?);
                 """,
             user.id,
             user.elo,
             user.xp,
-            user.money
+            user.money,
         )
-    
-        await self.execute("""
+
+        await self.execute(
+            """
                 INSERT INTO rocket (id, thrust, fuel, maxVelocity, pilotIntel)
                 VALUES (?, ?, ?, ?, ?);
                 """,
@@ -106,9 +106,9 @@ class Database:
             rocket.thrust,
             rocket.fuel,
             rocket.max_velocity,
-            rocket.pilot_intel
+            rocket.pilot_intel,
         )
-    
+
     async def create_new_user(self, member: discord.Member):
         user = User.default(member.id)
         rocket = RocketStats.default(member.id)
@@ -116,26 +116,35 @@ class Database:
         return user, rocket
 
     async def update_elo_rating(self, member: discord.Member, change: int):
-        await self.execute("UPDATE user SET elo = elo + ? WHERE id = ?", change, member.id)
+        await self.execute(
+            "UPDATE user SET elo = elo + ? WHERE id = ?", change, member.id
+        )
 
     async def update_money(self, member: discord.Member, change: int):
-        await self.execute("UPDATE user SET money = money + ? WHERE id = ?", change, member.id)
+        await self.execute(
+            "UPDATE user SET money = money + ? WHERE id = ?", change, member.id
+        )
 
     async def update_xp(self, member: discord.Member, change: int):
-        await self.execute("UPDATE user SET xp = xp + ? WHERE id = ?", change, member.id)
+        await self.execute(
+            "UPDATE user SET xp = xp + ? WHERE id = ?", change, member.id
+        )
 
     async def update_rocket(self, member: discord.Member, part: str, change: int):
-        part = {
-            "fuel": "fuel",
-            "engine": "thrust",
-            "velocity": "maxVelocity"
-        }[part]
+        part = {"fuel": "fuel", "engine": "thrust", "velocity": "maxVelocity"}[part]
 
-        await self.execute(f"UPDATE rocket SET {part} = {part} + ? WHERE id = ?", change, member.id)
-        
+        await self.execute(
+            f"UPDATE rocket SET {part} = {part} + ? WHERE id = ?", change, member.id
+        )
+
     async def update_intel(self, member: discord.Member, change: float):
-        await self.execute("UPDATE rocket SET pilotIntel = pilotIntel + ? WHERE id = ?", round(change, 2), member.id)
-        
+        await self.execute(
+            "UPDATE rocket SET pilotIntel = pilotIntel + ? WHERE id = ?",
+            round(change, 2),
+            member.id,
+        )
+
+
 @dataclass
 class User:
     id: int
@@ -151,6 +160,7 @@ class User:
     def default(cls, id):
         return cls(id, 400, 1, 100)
 
+
 @dataclass
 class RocketStats:
     id: int
@@ -161,7 +171,12 @@ class RocketStats:
 
     @property
     def game_data(self):
-        return (self.thrust/10000, self.fuel, self.max_velocity/100, self.pilot_intel)
+        return (
+            self.thrust / 10000,
+            self.fuel,
+            self.max_velocity / 100,
+            self.pilot_intel,
+        )
 
     @classmethod
     def default(cls, id):

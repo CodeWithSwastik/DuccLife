@@ -25,7 +25,8 @@ class DuccLife(commands.Bot):
                 everyone=False, users=True, roles=False
             ),
             activity=discord.Activity(
-                type=discord.ActivityType.watching, name="ducks race into the milky way!"
+                type=discord.ActivityType.watching,
+                name="ducks race into the milky way!",
             ),
         )
 
@@ -52,8 +53,8 @@ class DuccLife(commands.Bot):
 
     @property
     def duckcoin(self):
-        self._duckcoin = self._duckcoin or self.get_custom_emoji('duckcoin')
-        return self._duckcoin 
+        self._duckcoin = self._duckcoin or self.get_custom_emoji("duckcoin")
+        return self._duckcoin
 
     async def run_async(self, func, *args, **kwargs):
         return await self.loop.run_in_executor(None, func, *args, **kwargs)

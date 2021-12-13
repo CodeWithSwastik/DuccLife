@@ -2,6 +2,7 @@ from easy_pil import Canvas, Editor, Font
 import imageio as io
 from copy import copy
 
+
 class Renderer:
     WIDTH, HEIGHT = 800, 300
     duck1 = Editor("assets/duck-rocket1.png").resize((124, 90))
@@ -15,12 +16,17 @@ class Renderer:
 
         self.frames = []
 
-
     def add_frame(self, player1, player2):
         frame = copy(self.background)
-        frame.paste(self.duck1 if player1.thrusting else self.duckoff1, (player1.pos, self.HEIGHT-250))
-        frame.paste(self.duck2 if player2.thrusting else self.duckoff2, (player2.pos, self.HEIGHT-150))
-        
+        frame.paste(
+            self.duck1 if player1.thrusting else self.duckoff1,
+            (player1.pos, self.HEIGHT - 250),
+        )
+        frame.paste(
+            self.duck2 if player2.thrusting else self.duckoff2,
+            (player2.pos, self.HEIGHT - 150),
+        )
+
         # frame.text(
         #     (10, 260),
         #     f"Velocity 1: {round(player1.vel)} km/h   "
