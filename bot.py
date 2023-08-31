@@ -16,6 +16,7 @@ class DuccLife(commands.Bot):
         self.db = Database()
         intents = Intents.default()
         intents.members = True
+        intents.message_content = True
         self._duckcoin = None
         super().__init__(
             command_prefix=self.config.bot_prefix,
@@ -31,9 +32,7 @@ class DuccLife(commands.Bot):
         )
 
         for file in os.listdir("cogs"):
-
             if file.endswith(".py") and not file.startswith("_"):
-
                 name = file[:-3]
                 self.load_extension(name=f"cogs.{name}")
 

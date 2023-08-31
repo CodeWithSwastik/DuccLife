@@ -37,4 +37,4 @@ class Renderer:
         self.frames.append(io.imread(frame.image_bytes))
 
     def render(self, path, fps=60):
-        io.mimsave(path, self.frames, fps=fps, format="GIF")
+        io.mimsave(path, self.frames, duration=(1000 * (1 / fps)), format="GIF")
